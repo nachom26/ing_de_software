@@ -1,0 +1,25 @@
+#contenedor{
+    display: flex;
+    justify-content: center;
+    align-content: center;    
+}
+#contenedor-formulario-registro{
+    border: solid #000 1px;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 5%;
+    width:400px;
+    height: 400px;
+}
+
+#contenedor-formulario-registro-nombre{
+   width: 300px;
+
+}
+
+#contenedor-formulario-registro-password{
+    width: 300px;
+ 
+ }
