@@ -1,11 +1,11 @@
 -- Crear tabla Regiones
-CREATE TABLE Regiones (
+CREATE TABLE regiones (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(30) NOT NULL
 );
 
 -- Crear tabla Comunas
-CREATE TABLE Comunas (
+CREATE TABLE comunas (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(30) NOT NULL,
     id_region INT NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE Comunas (
 );
 
 -- Crear tabla Usuarios
-CREATE TABLE Usuarios (
+CREATE TABLE usuarios (
     id SERIAL PRIMARY KEY,
     direccion VARCHAR(40) NOT NULL,
     id_comuna INT NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE Usuarios (
 );
 
 -- Crear tabla Productos
-CREATE TABLE Productos (
+CREATE TABLE productos (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
     descripcion TEXT,
@@ -37,7 +37,7 @@ CREATE TABLE Productos (
 );
 
 -- Crear tabla Valoraciones
-CREATE TABLE Valoraciones (
+CREATE TABLE valoraciones (
     id_usuario INT NOT NULL,
     id_producto INT NOT NULL,
     valoracion INT CHECK (valoracion BETWEEN 1 AND 5),
@@ -47,7 +47,7 @@ CREATE TABLE Valoraciones (
 );
 
 -- Crear tabla Formas_producto
-CREATE TABLE Formas_producto (
+CREATE TABLE formas_producto (
     id SERIAL PRIMARY KEY,
     id_producto INT NOT NULL,
     nombre VARCHAR(50),
@@ -60,13 +60,13 @@ CREATE TABLE Formas_producto (
 );
 
 -- Crear tabla Estados
-CREATE TABLE Estados (
+CREATE TABLE estados (
     id SERIAL PRIMARY KEY,
     estado VARCHAR(15) NOT NULL
 );
 
 -- Crear tabla Ordenes
-CREATE TABLE Ordenes (
+CREATE TABLE ordenes (
     id SERIAL PRIMARY KEY,
     id_usuario INT NOT NULL,
     fecha_hora TIMESTAMP NOT NULL,
@@ -76,7 +76,7 @@ CREATE TABLE Ordenes (
 );
 
 -- Crear tabla Lineas_orden
-CREATE TABLE Lineas_orden (
+CREATE TABLE lineas_orden (
     id SERIAL PRIMARY KEY,
     id_orden INT NOT NULL,
     id_forma_producto INT NOT NULL,
