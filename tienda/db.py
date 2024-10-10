@@ -1,10 +1,10 @@
-import psycopg2
+#import psycopg2
 
-conn = psycopg2.connect("dbname=test user=postgres")
+#conn = psycopg2.connect("dbname=test user=postgres")
 
-cur = conn.cursor()
+#cur = conn.cursor()
 
 
-def close_db():
-    cur.close()
-    conn.close()
+#def close_db():
+#    cur.close()
+#    conn.close()

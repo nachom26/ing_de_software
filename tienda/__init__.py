@@ -18,10 +18,14 @@ def create_app():
     
     from . import db
 
-    db.init(app)
+    #db.init(app)
 
     from . import login
+    from . import index
 
     app.register_blueprint(login.bp)
+    app.register_blueprint(index.bp)
+
+    app.add_url_rule("/", endpoint="index")
 
     return app
