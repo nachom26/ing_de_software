@@ -20,4 +20,8 @@ def create_app():
 
     db.init(app)
 
+    from . import login
+
+    app.register_blueprint(login.bp)
+
     return app
