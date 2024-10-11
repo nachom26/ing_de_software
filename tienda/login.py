@@ -30,7 +30,7 @@ def register():
         email = request.form["email"]
         password = request.form["password"]
 
-    return render_template("register.html")
+    return render_template("registro.html")
 
 @bp.route("/login", methods = ("GET", "POST"))
 def login():
