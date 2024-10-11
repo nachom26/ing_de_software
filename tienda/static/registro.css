@@ -1,0 +1,83 @@
+#registro-completo{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+}
+#contenedor{
+    display: flex;
+    align-content: center;    
+}
+#contenedor-formulario-registro{
+    border: solid #000 1px;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 5%;
+    width:400px;
+    height: 450px;
+}
+#contenedor-formulario-registro-nombre{
+   width: 300px;
+}
+#contenedor-formulario-registro-apellido{
+    width: 300px;
+ }
+ #contenedor-formulario-registro-password{
+    width: 300px;
+ }
+ #contenedor-formulario-registro-confirmacion_password{
+    margin-bottom: 20px;
+    width: 300px;    
+ }
+
+
+
+
+
+ #contenedor-datos{
+    display: flex;
+    align-content: center;    
+}
+#contenedor-formulario-registro-datos{
+    border: solid #000 1px;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 5%;
+    width:400px;
+    height: 450px;
+}
+#contenedor-formulario-registro-datos-direccion{
+    width: 300px;
+ 
+ }
+ #contenedor-formulario-registro-datos-comuna{
+    width: 300px;
+ 
+ }
+ #contenedor-formulario-registro-datos-region{
+    width: 300px;
+ 
+ }
+ #contenedor-formulario-registro-datos-email{
+    width: 300px;
+    margin-bottom: 20px;
+ }
+
+
+
+
+ #Registrando{
+    padding: 20px;
+ }
+#registro-completo-contenedor{
+    display: flex;
+    justify-content: center;
+}
+ #registro-completo-contenedor-boton{
+    margin-top: 40px;
+    height: 30px;
+    width: 100px;
+ }
