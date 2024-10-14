@@ -6,9 +6,9 @@ import click
 
 def get_db():
     if "db" not in g:
-        g.db = psycopg2.connect(current_app.config["DATABASE/URL"],
+        g.db = psycopg2.connect(current_app.config["DATABASE_URL"],
                                 cursor_factory=DictCursor)
-        
+        g.db.set_client_encoding('UTF8')
         return g.db
 
 
@@ -24,7 +24,7 @@ def init_db():
     with current_app.open_resource("schema.sql") as f:
         with db.cursor() as cursor:
             cursor.execute(f.read().decode("utf8"))
-        db.commit
+        db.commit()
 
 @click.command("init_db")
 def init_db_command():

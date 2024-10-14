@@ -10,7 +10,7 @@ def create_app(test_config = None):
     app.config.from_mapping(
         SECRET_KEY="dev",
         #TODO crear bdd y agregar url
-        DATABASE_URL="example"
+        DATABASE_URL="postgresql://tienda:2643@localhost:5432/tienda"
     )
     if test_config is None:
         app.config.from_pyfile("config.py", silent=True)

@@ -1,59 +1,320 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="src/registro.css" > 
-    <title>Menu</title>
+    <link rel="stylesheet" href="../static/registro.css"> 
+    <title>Registro</title>
+    <style>
+      /* Estilos básicos para resaltar errores */
+      .error {
+        border-color: red;
+      }
+      .mensaje-error {
+        color: red;
+        font-size: 0.9em;
+      }
+    </style>
+    <!-- Inclusión de jQuery desde CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" 
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" 
+            crossorigin="anonymous"></script>
   </head>
   <body>
     <header class="menu">
-      <a href="index.html"><button type="button" id="menu-boton-principal">Pagina Principal</button></a> 
-      <a href="login.html"><button type="button" id="menu-boton-login">Pagina Login</button></a>
-      <a href="registro.html"><button type="button" id="menu-boton-login">Pagina Registro</button></a>     
+      <a href="/"><button type="button" id="menu-boton-principal">Página Principal</button></a> 
+      <a href="login"><button type="button" id="menu-boton-login">Página Login</button></a>
+      <a href="registro"><button type="button" id="menu-boton-registro">Página Registro</button></a>     
     </header>
     
-<div id="Registrando">
-  <div id="registro-completo">
-    <div id="contenedor" >
-      <form id = "contenedor-formulario-registro" >
+    <div id="Registrando">
+      <form id="form-registro" action="/registro" method="post">
+        <div id="registro-completo">
+          <div id="contenedor">
+            <div id="contenedor-formulario-registro">
+              <h1>Registrarse</h1>
+              
+              <label for="contenedor-formulario-registro-nombre">Nombre</label>  
+              <input 
+                type="text" 
+                name="nombre" 
+                id="contenedor-formulario-registro-nombre" 
+                required 
+                minlength="2" 
+                maxlength="50"
+                autocomplete="given-name"
+              >
+              
+              <label for="contenedor-formulario-registro-apellido">Apellido</label>  
+              <input 
+                type="text" 
+                name="apellido" 
+                id="contenedor-formulario-registro-apellido" 
+                required 
+                minlength="2" 
+                maxlength="50"
+                autocomplete="family-name"
+              >
+              
+              <label for="contenedor-formulario-registro-password">Contraseña</label>
+              <input 
+                type="password" 
+                name="password"  
+                id="contenedor-formulario-registro-password" 
+                required 
+                minlength="8" 
+                maxlength="20"
+              >
+              
+              <label for="contenedor-formulario-registro-confirmacion_password">Confirmar Contraseña</label>
+              <input 
+                type="password" 
+                name="password2" 
+                id="contenedor-formulario-registro-confirmacion_password" 
+                required 
+                minlength="8" 
+                maxlength="20"
+              >
+              <span id="mensaje-error-password" class="mensaje-error"></span>
+            </div>
+          </div> 
 
-      <h1>Registrarse</h1>
-       <p>Nombre</p>  
-      <input type='text'  id="contenedor-formulario-registro-nombre"></input>
-       <p>Apellido</p>  
-      <input type='text'  id="contenedor-formulario-registro-apellido"></input>
-      <p>Contraseña</p>
-      <input type='password'  id="contenedor-formulario-registro-password"></input>
-      <p>Confirmar Contraseña</p>
-      <input type='password'  id="contenedor-formulario-registro-confirmacion_password"></input>
+          <div id="contenedor-datos">
+            <div id="contenedor-formulario-registro-datos">
+              <h1>Datos Personales</h1>
+              
+              <label for="contenedor-formulario-registro-datos-direccion">Dirección</label>  
+              <input 
+                type="text" 
+                name="direccion" 
+                id="contenedor-formulario-registro-datos-direccion" 
+                required 
+                minlength="5" 
+                maxlength="100"
+                autocomplete="address-line1"
+              >
+              
+              <label for="regiones">Región</label>
+              <select 
+                name="region" 
+                id="regiones" 
+                required
+                autocomplete="address-level1"
+              >
+                <option value="sin-region">Seleccione una región</option>
+                <!-- Opciones se llenarán dinámicamente -->
+              </select>
+              
+              <span id="mensaje-error-region" class="mensaje-error"></span>
+
+              <label for="comunas">Comuna</label>
+              <select 
+                name="comuna" 
+                id="comunas" 
+                required
+                autocomplete="address-level2"
+              >
+                <option value="sin-comuna">Seleccione una comuna</option>
+                <!-- Opciones se llenarán dinámicamente -->
+              </select>
+
+              <span id="mensaje-error-comuna" class="mensaje-error"></span>
+              
+              <label for="contenedor-formulario-registro-datos-email">Email</label>
+              <input 
+                type="email" 
+                name="email" 
+                id="contenedor-formulario-registro-datos-email" 
+                required 
+                maxlength="100"
+                autocomplete="email"
+              >
+
+              
+            </div>
+          </div> 
+        </div>
+        <div id="registro-completo-contenedor">
+          <input type="submit" id="registro-completo-contenedor-boton" value="Registrarse">
+        </div>
       </form>
-    </div> 
+    </div>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+              {{ message }}
+            {% endfor %}
+        {% endif %}
+      {% endwith %}
 
-    <div id="contenedor-datos" >
-      <form id = "contenedor-formulario-registro-datos" >
+    <!-- Definición de Regiones y Comunas -->
+    <script>
+      var RegionesYcomunas = {
+        "regiones": [{
+            "NombreRegion": "Arica y Parinacota",
+            "comunas": ["Arica", "Camarones", "Putre", "General Lagos"]
+          },
+          {
+            "NombreRegion": "Tarapacá",
+            "comunas": ["Iquique", "Alto Hospicio", "Pozo Almonte", "Camiña", "Colchane", "Huara", "Pica"]
+          },
+          {
+            "NombreRegion": "Antofagasta",
+            "comunas": ["Antofagasta", "Mejillones", "Sierra Gorda", "Taltal", "Calama", "Ollagüe", "San Pedro de Atacama", "Tocopilla", "María Elena"]
+          },
+          {
+            "NombreRegion": "Atacama",
+            "comunas": ["Copiapó", "Caldera", "Tierra Amarilla", "Chañaral", "Diego de Almagro", "Vallenar", "Alto del Carmen", "Freirina", "Huasco"]
+          },
+          {
+            "NombreRegion": "Coquimbo",
+            "comunas": ["La Serena", "Coquimbo", "Andacollo", "La Higuera", "Paiguano", "Vicuña", "Illapel", "Canela", "Los Vilos", "Salamanca", "Ovalle", "Combarbalá", "Monte Patria", "Punitaqui", "Río Hurtado"]
+          },
+          {
+            "NombreRegion": "Valparaíso",
+            "comunas": ["Valparaíso", "Casablanca", "Concón", "Juan Fernández", "Puchuncaví", "Quintero", "Viña del Mar", "Isla de Pascua", "Los Andes", "Calle Larga", "Rinconada", "San Esteban", "La Ligua", "Cabildo", "Papudo", "Petorca", "Zapallar", "Quillota", "Calera", "Hijuelas", "La Cruz", "Nogales", "San Antonio", "Algarrobo", "Cartagena", "El Quisco", "El Tabo", "Santo Domingo", "San Felipe", "Catemu", "Llaillay", "Panquehue", "Putaendo", "Santa María", "Quilpué", "Limache", "Olmué", "Villa Alemana"]
+          },
+          {
+            "NombreRegion": "Región del Libertador Gral. Bernardo O'Higgins",
+            "comunas": ["Rancagua", "Codegua", "Coinco", "Coltauco", "Doñihue", "Graneros", "Las Cabras", "Machalí", "Malloa", "Mostazal", "Olivar", "Peumo", "Pichidegua", "Quinta de Tilcoco", "Rengo", "Requínoa", "San Vicente", "Pichilemu", "La Estrella", "Litueche", "Marchihue", "Navidad", "Paredones", "San Fernando", "Chépica", "Chimbarongo", "Lolol", "Nancagua", "Palmilla", "Peralillo", "Placilla", "Pumanque", "Santa Cruz"]
+          },
+          {
+            "NombreRegion": "Región del Maule",
+            "comunas": ["Talca", "Constitución", "Curepto", "Empedrado", "Maule", "Pelarco", "Pencahue", "Río Claro", "San Clemente", "San Rafael", "Cauquenes", "Chanco", "Pelluhue", "Curicó", "Hualañé", "Licantén", "Molina", "Rauco", "Romeral", "Sagrada Familia", "Teno", "Vichuquén", "Linares", "Colbún", "Longaví", "Parral", "Reviro", "San Javier", "Villa Alegre", "Yerbas Buenas"]
+          },
+          {
+            "NombreRegion": "Región del Biobío",
+            "comunas": ["Concepción", "Coronel", "Chiguayante", "Florida", "Hualqui", "Lota", "Penco", "San Pedro de la Paz", "Santa Juana", "Talcahuano", "Tomé", "Hualpén", "Lebu", "Arauco", "Cañete", "Contulmo", "Curanilahue", "Los Álamos", "Tirúa", "Los Ángeles", "Antuco", "Cabrero", "Laja", "Mulchén", "Nacimiento", "Negrete", "Quilaco", "Quilleco", "San Rosendo", "Santa Bárbara", "Tucapel", "Yumbel", "Alto Biobío", "Chillán", "Bulnes", "Cobquecura", "Coelemu", "Coihueco", "Chillán Viejo", "El Carmen", "Ninhue", "Ñiquén", "Pemuco", "Pinto", "Portezuelo", "Quillón", "Quirihue", "Ránquil", "San Carlos", "San Fabián", "San Ignacio", "San Nicolás", "Treguaco", "Yungay"]
+          },
+          {
+            "NombreRegion": "Región de la Araucanía",
+            "comunas": ["Temuco", "Carahue", "Cunco", "Curarrehue", "Freire", "Galvarino", "Gorbea", "Lautaro", "Loncoche", "Melipeuco", "Nueva Imperial", "Padre las Casas", "Perquenco", "Pitrufquén", "Pucón", "Saavedra", "Teodoro Schmidt", "Toltén", "Vilcún", "Villarrica", "Cholchol", "Angol", "Collipulli", "Curacautín", "Ercilla", "Lonquimay", "Los Sauces", "Lumaco", "Purén", "Renaico", "Traiguén", "Victoria"]
+          },
+          {
+            "NombreRegion": "Región de Los Ríos",
+            "comunas": ["Valdivia", "Corral", "Lanco", "Los Lagos", "Máfil", "Mariquina", "Paillaco", "Panguipulli", "La Unión", "Futrono", "Lago Ranco", "Río Bueno"]
+          },
+          {
+            "NombreRegion": "Región de Los Lagos",
+            "comunas": ["Puerto Montt", "Calbuco", "Cochamó", "Fresia", "Frutillar", "Los Muermos", "Llanquihue", "Maullín", "Puerto Varas", "Castro", "Ancud", "Chonchi", "Curaco de Vélez", "Dalcahue", "Puqueldón", "Queilén", "Quellón", "Quemchi", "Quinchao", "Osorno", "Puerto Octay", "Purranque", "Puyehue", "Río Negro", "San Juan de la Costa", "San Pablo", "Chaitén", "Futaleufú", "Hualaihué", "Palena"]
+          },
+          {
+            "NombreRegion": "Región Aisén del Gral. Carlos Ibáñez del Campo",
+            "comunas": ["Coihaique", "Lago Verde", "Aisén", "Cisnes", "Guaitecas", "Cochrane", "O’Higgins", "Tortel", "Chile Chico", "Río Ibáñez"]
+          },
+          {
+            "NombreRegion": "Región de Magallanes y de la Antártica Chilena",
+            "comunas": ["Punta Arenas", "Laguna Blanca", "Río Verde", "San Gregorio", "Cabo de Hornos (Ex Navarino)", "Antártica", "Porvenir", "Primavera", "Timaukel", "Natales", "Torres del Paine"]
+          },
+          {
+            "NombreRegion": "Región Metropolitana de Santiago",
+            "comunas": ["Cerrillos", "Cerro Navia", "Conchalí", "El Bosque", "Estación Central", "Huechuraba", "Independencia", "La Cisterna", "La Florida", "La Granja", "La Pintana", "La Reina", "Las Condes", "Lo Barnechea", "Lo Espejo", "Lo Prado", "Macul", "Maipú", "Ñuñoa", "Pedro Aguirre Cerda", "Peñalolén", "Providencia", "Pudahuel", "Quilicura", "Quinta Normal", "Recoleta", "Renca", "San Joaquín", "San Miguel", "San Ramón", "Vitacura", "Puente Alto", "Pirque", "San José de Maipo", "Colina", "Lampa", "Tiltil", "San Bernardo", "Buin", "Calera de Tango", "Paine", "Melipilla", "Alhué", "Curacaví", "María Pinto", "San Pedro", "Talagante", "El Monte", "Isla de Maipo", "Padre Hurtado", "Peñaflor"]
+          }
+        ]
+      };
+    </script>
 
-      <h1>Datos personales</h1>
-       <p>Direccion</p>  
-      <input type='text'  id="contenedor-formulario-registro-datos-direccion"></input>
-       <p>Comuna</p>
-      <input type='text'  id="contenedor-formulario-registro-datos-comuna"></input>
-       <p>Region</p>
-      <input type='text'  id="contenedor-formulario-registro-datos-region"></input>
-       <p>Email </p>
-      <input type='email'  id="contenedor-formulario-registro-datos-email"></input>
+    <!-- Integración de las Funciones de jQuery -->
+    <script>
+      jQuery(document).ready(function () {
 
-      </form>
-    </div> 
-  </div>
-  <div id="registro-completo-contenedor">
-  <button type="submit" id="registro-completo-contenedor-boton"> Registrarse</button>
-  </div>
-</div>
+        var iRegion = 0;
+        var htmlRegion = '<option value="sin-region">Seleccione una región</option><option value="--">--</option>';
+        var htmlComunas = '<option value="sin-comuna">Seleccione una comuna</option><option value="--">--</option>';
 
+        // Llenar el select de Regiones
+        jQuery.each(RegionesYcomunas.regiones, function () {
+          htmlRegion += '<option value="' + RegionesYcomunas.regiones[iRegion].NombreRegion + '">' + RegionesYcomunas.regiones[iRegion].NombreRegion + '</option>';
+          iRegion++;
+        });
 
+        jQuery('#regiones').html(htmlRegion);
+        jQuery('#comunas').html(htmlComunas);
 
+        // Manejar el cambio en el select de Regiones
+        jQuery('#regiones').change(function () {
+          var iRegiones = 0;
+          var valorRegion = jQuery(this).val();
+          var htmlComuna = '<option value="sin-comuna">Seleccione una comuna</option><option value="--">--</option>';
+          jQuery.each(RegionesYcomunas.regiones, function () {
+            if (RegionesYcomunas.regiones[iRegiones].NombreRegion === valorRegion) {
+              var iComunas = 0;
+              jQuery.each(RegionesYcomunas.regiones[iRegiones].comunas, function () {
+                htmlComuna += '<option value="' + RegionesYcomunas.regiones[iRegiones].comunas[iComunas] + '">' + RegionesYcomunas.regiones[iRegiones].comunas[iComunas] + '</option>';
+                iComunas++;
+              });
+            }
+            iRegiones++;
+          });
+          jQuery('#comunas').html(htmlComuna);
+        });
 
+        // Validar selección de Comuna
+        jQuery('#comunas').change(function () {
+          if (jQuery(this).val() === 'sin-comuna') {
+            alert('Seleccione una Comuna');
+          }
+        });
 
+        // Validar selección de Región
+        jQuery('#regiones').change(function () {
+          if (jQuery(this).val() === 'sin-region') {
+            alert('Seleccione una Región');
+          }
+        });
+
+      });
+    </script>
+
+    <!-- Validación de Contraseñas y Longitudes de Campos -->
+    <script>
+      // Validación de contraseñas
+      function validarPasswords(event) {
+        const password = document.getElementById('contenedor-formulario-registro-password');
+        const confirmPassword = document.getElementById('contenedor-formulario-registro-confirmacion_password');
+        const mensajeError = document.getElementById('mensaje-error-password');
+
+        if (password.value !== confirmPassword.value) {
+          mensajeError.textContent = "Las contraseñas no coinciden.";
+          confirmPassword.classList.add('error');
+          event.preventDefault();
+        } else {
+          mensajeError.textContent = "";
+          confirmPassword.classList.remove('error');
+        }
+
+        const region = document.getElementById('regiones');
+        const mensajeErrorRegion = document.getElementById('mensaje-error-region');
+
+        if (region.value === 'sin-region' || region.value === '--') {
+          mensajeErrorRegion.textContent = "Seleccione una Región válida.";
+          region.classList.add('error');
+          esValido = false;
+        } else {
+          mensajeErrorRegion.textContent = "";
+          region.classList.remove('error');
+        }
+
+        // Validación de Comuna
+        const comuna = document.getElementById('comunas');
+        const mensajeErrorComuna = document.getElementById('mensaje-error-comuna');
+
+        if (comuna.value === 'sin-comuna' || comuna.value === '--') {
+          mensajeErrorComuna.textContent = "Seleccione una Comuna válida.";
+          comuna.classList.add('error');
+          esValido = false;
+        } else {
+          mensajeErrorComuna.textContent = "";
+          comuna.classList.remove('error');
+        }
+
+      }
+
+      // Event Listener para validar contraseñas al enviar el formulario
+      window.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('form-registro');
+        form.addEventListener('submit', validarPasswords);
+      });
+    </script>
   </body>
 </html>

@@ -1,13 +1,13 @@
 -- Crear tabla Regiones
 CREATE TABLE regiones (
     id SERIAL PRIMARY KEY,
-    nombre VARCHAR(30) NOT NULL
+    nombre VARCHAR(50) NOT NULL
 );
 
 -- Crear tabla Comunas
 CREATE TABLE comunas (
     id SERIAL PRIMARY KEY,
-    nombre VARCHAR(30) NOT NULL,
+    nombre VARCHAR(50) NOT NULL,
     id_region INT NOT NULL,
     FOREIGN KEY (id_region) REFERENCES Regiones(id)
 );

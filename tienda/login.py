@@ -8,6 +8,9 @@ from flask import url_for
 from .db import get_db
 from werkzeug.security import check_password_hash
 from werkzeug.security import generate_password_hash
+from flask import flash
+from psycopg2 import IntegrityError
+from flask import current_app
 
 bp = Blueprint("login", __name__)
 
@@ -23,12 +26,57 @@ def load_logged_in_user():
 
 
 #TODO hacer el registro
-@bp.route("/register", methods = ("GET", "POST"))
+@bp.route("/registro", methods = ("GET", "POST"))
 def register():
     #cuando se envia el formulario de registro
     if request.method == "POST":
+        nombre = request.form["nombre"]
+        apellido = request.form["apellido"]
         email = request.form["email"]
         password = request.form["password"]
+        direccion = request.form["direccion"]
+        region = request.form["region"]
+        comuna = request.form["comuna"]
+
+        db = get_db()
+
+        try:
+            with db.cursor() as cursor:
+                
+                cursor.execute("SELECT id FROM regiones WHERE nombre = %s", (region,))
+                #id_region = cursor.fetchone()[0]
+                
+                current_app.logger.info('')
+                cursor.execute("SELECt * from regiones")
+                id_region = cursor.fetchall()
+                id_region = [(r[0], r[1].encode('latin1').decode('utf-8')) for r in id_region]
+                flash(id_region)
+                flash(region)
+
+                cursor.execute("SELECT id FROM comunas WHERE nombre = %s AND id_region = %s", (comuna, id_region,))         
+                id_comuna = cursor.fetchone()[0]
+                flash(id_comuna)
+                cursor.execute("""INSERT INTO usuarios (direccion, nombre, apellido, email, password, id_region, id_comuna) 
+                               VALUES (%s, %s, %s, %s, %s, %s, %s)""", 
+                               (direccion, 
+                                nombre, 
+                                apellido, 
+                                email, 
+                                generate_password_hash(password), 
+                                id_region, 
+                                id_comuna,)
+                            )
+                db.commit()
+
+        except IntegrityError as e:
+            flash(f"{e}")
+        
+        except Exception as e:
+            flash(f"{e}")
+
+        else:
+            return redirect(url_for("login.login"))
+
 
     return render_template("registro.html")
 
@@ -40,10 +88,11 @@ def login():
         password = request.form["password"]
         db = get_db()
         error = None
-        user = db.execute(
-            "SELECT * FROM usuarios where email = ?", (email,)
-        ).fetchone()
 
+        with db.cursor() as cursor:
+
+            cursor.execute("SELECT * FROM usuarios where email = %s", (email,))
+            user = cursor.fetchone()
         if user is None:
             error = "Correo incorrecto"
         elif not check_password_hash(user["password"], password):
@@ -53,6 +102,7 @@ def login():
             session.clear()
             session["user_id"] = user["id"]
             return redirect(url_for("index"))
+        flash(error)
     
 
     return render_template("login.html")
