@@ -22,7 +22,7 @@ def load_logged_in_user():
     if user_id is None:
         g.user = None
     
-    else: print("usuario logeado")
+    else: flash("usuario logeado")
 
 
 #TODO hacer el registro
@@ -44,18 +44,11 @@ def register():
             with db.cursor() as cursor:
                 
                 cursor.execute("SELECT id FROM regiones WHERE nombre = %s", (region,))
-                #id_region = cursor.fetchone()[0]
-                
-                current_app.logger.info('')
-                cursor.execute("SELECt * from regiones")
-                id_region = cursor.fetchall()
-                id_region = [(r[0], r[1].encode('latin1').decode('utf-8')) for r in id_region]
-                flash(id_region)
-                flash(region)
+                id_region = cursor.fetchone()[0]
 
                 cursor.execute("SELECT id FROM comunas WHERE nombre = %s AND id_region = %s", (comuna, id_region,))         
                 id_comuna = cursor.fetchone()[0]
-                flash(id_comuna)
+
                 cursor.execute("""INSERT INTO usuarios (direccion, nombre, apellido, email, password, id_region, id_comuna) 
                                VALUES (%s, %s, %s, %s, %s, %s, %s)""", 
                                (direccion, 
