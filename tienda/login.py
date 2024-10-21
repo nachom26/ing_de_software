@@ -22,7 +22,11 @@ def load_logged_in_user():
     if user_id is None:
         g.user = None
     
-    else: flash("usuario logeado")
+    else: 
+        with get_db().cursor() as cursor:
+            cursor.execute("SELECT * FROM usuarios WHERE id = %s", (user_id,))
+            g.user = cursor.fetchone()[0]
+        
 
 
 #TODO hacer el registro
