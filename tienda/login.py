@@ -42,7 +42,9 @@ def register():
         region = request.form["region"]
         comuna = request.form["comuna"]
 
-        db = get_db()
+        get_db()
+
+        db = g.get("db")
 
         try:
             with db.cursor() as cursor:
@@ -66,10 +68,10 @@ def register():
                 db.commit()
 
         except IntegrityError as e:
-            flash(f"{e}")
+            flash(f"IE: {e}")
         
         except Exception as e:
-            flash(f"{e}")
+            flash(f"Exception: {e}")
 
         else:
             return redirect(url_for("login.login"))
@@ -85,7 +87,7 @@ def login():
         password = request.form["password"]
         db = get_db()
         error = None
-
+        
         with db.cursor() as cursor:
 
             cursor.execute("SELECT * FROM usuarios where email = %s", (email,))

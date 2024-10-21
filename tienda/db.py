@@ -2,13 +2,20 @@ import psycopg2
 from psycopg2.extras import DictCursor
 from flask import current_app, g
 import click
+import logging
 
 
 def get_db():
     if "db" not in g:
-        g.db = psycopg2.connect(current_app.config["DATABASE_URL"],
-                                cursor_factory=DictCursor)
-        g.db.set_client_encoding('UTF8')
+        try:
+            g.db = psycopg2.connect(current_app.config["DATABASE_URL"],
+                                    cursor_factory=DictCursor)
+            g.db.set_client_encoding('UTF8')
+            
+        except psycopg2.DatabaseError as e:
+            current_app.logger.info(f"Error al conectar a la base de datos: {e}")
+            return None
+
         return g.db
 
 
