@@ -85,7 +85,8 @@ def login():
     if request.method == "POST":
         email = request.form["email"]
         password = request.form["password"]
-        db = get_db()
+        get_db()
+        db = g.get("db")
         error = None
         
         with db.cursor() as cursor:
