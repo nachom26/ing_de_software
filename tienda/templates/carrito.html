@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/carrito.css" > 
+    <title>Carrito compras</title>
+</head>
+<body>
+    <header class="menu">
+        <a href="/"><button type="button" id="menu-boton-principal">Página Principal</button></a> 
+        <a href="login"><button type="button" id="menu-boton-login">Página Login</button></a>
+        <a href="registro"><button type="button" id="menu-boton-registro">Página Registro</button></a>    
+        <a href="carrito.html" ><button type="button" id= "menu-boton-registro">ICONO CARRITO</button></a> 
+      </header>
+
+    <h1>Producos seleccionados</h1>
+
+    <div class="cart-container">
+        <h1>Carrito de Compras</h1>
+        <!-- Producto en el carrito -->
+        <div class="cart-item">
+            <div class="item-info">
+                <img src="https://via.placeholder.com/100" alt="Producto">
+                <div class="item-details">
+                    <p class="item-title">Nombre del Producto</p>
+                    <p class="item-price">$9,999.99</p>
+                </div>
+            </div>
+            <div class="quantity-controls">
+                <button class="quantity-btn">-</button>
+                <input type="text" class="quantity-input" value="1">
+                <button class="quantity-btn">+</button>
+            </div>
+        </div>
+        <!-- Repite el div .cart-item para más productos -->
+
+        <!-- Total y botón de comprar -->
+        <p class="total-price">Total: $9,999.99</p>
+        <a href="#" class="checkout-btn">Comprar ahora</a>
+    </div>
+
+<!-- hay que hacer la pagina cuando se hace click en el producto en el cual se clickeara la opcion de ponerlo en el carrito -->
+
+    
+
+</body>
+</html>
