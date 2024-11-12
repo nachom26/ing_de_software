@@ -14,5 +14,7 @@ def index():
     with db.cursor() as cursor:
         cursor.execute("select nombre, apellido from usuarios where id = %s", (g.user,))
         user= cursor.fetchone()
-    current_app.logger.info(user)
-    return render_template("index.html", data = user)
+    with db.cursor() as cursor:
+        cursor.execute("select * from productos join formas_producto on productos.id = formas_producto.id_producto join valoraciones on productos.id = valoraciones.id_producto")
+        productos = cursor.fetchall()
+    return render_template("index.html", user = user, productos = productos)
