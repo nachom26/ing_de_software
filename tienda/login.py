@@ -11,9 +11,21 @@ from werkzeug.security import generate_password_hash
 from flask import flash
 from psycopg2 import IntegrityError
 from flask import current_app
+import functools
 
 bp = Blueprint("login", __name__)
 
+def login_required(view):
+    """View decorator that redirects anonymous users to the login page."""
+
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for("auth.login"))
+
+        return view(**kwargs)
+
+    return wrapped_view
 
 @bp.before_app_request
 def load_logged_in_user():

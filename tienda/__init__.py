@@ -28,9 +28,11 @@ def create_app(test_config = None):
 
     from . import login
     from . import index
+    from . import carrito
 
     app.register_blueprint(login.bp)
     app.register_blueprint(index.bp)
+    app.register_blueprint(carrito.bp)
 
     app.add_url_rule("/", endpoint="index")
 

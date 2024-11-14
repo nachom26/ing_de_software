@@ -1,7 +1,8 @@
 from flask import Blueprint, g, request, jsonify, render_template
-from flask_login import login_required
+from .login import login_required
 from datetime import datetime
 from .db import get_db
+from flask import logging
 
 bp = Blueprint('carrito', __name__, url_prefix='/carrito')
 
@@ -16,7 +17,7 @@ def add_to_cart():
         # Revisar si el usuario ya tiene una orden "abierta" (estado = 1)
         cursor.execute(
             "SELECT id FROM Ordenes WHERE id_usuario = %s AND id_estado = %s",
-            (g.user["id"], 1)  # Asumiendo que el estado 1 es "abierto"
+            (g.user, 1)  # Asumiendo que el estado 1 es "abierto"
         )
         order = cursor.fetchone()
 
@@ -24,7 +25,7 @@ def add_to_cart():
             # Crear una nueva orden si no existe una "abierta"
             cursor.execute(
                 "INSERT INTO Ordenes (id_usuario, fecha_hora, id_estado) VALUES (%s, NOW(), %s) RETURNING id",
-                (g.user["id"], 1)  # Estado 1 como "abierto"
+                (g.user, 1)  # Estado 1 como "abierto"
             )
             order_id = cursor.fetchone()[0]
         else:
@@ -55,23 +56,24 @@ def add_to_cart():
     return jsonify({"message": "Producto agregado al carrito"})
 
 
-@bp.route('/cart')
+@bp.route('')
 @login_required
 def view_cart():
-    db = get_db()
+    get_db()
+    db = g.get("db")
     with db.cursor() as cursor:
         # Obtener la orden abierta del usuario
         cursor.execute(
-            "SELECT o.id, p.nombre, fp.precio, lo.cantidad FROM Ordenes o "
-            "JOIN Lineas_orden lo ON o.id = lo.id_orden "
-            "JOIN Formas_producto fp ON lo.id_forma_producto = fp.id "
-            "JOIN Productos p ON fp.id_producto = p.id "
+            "SELECT o.id, p.nombre, fp.precio FROM ordenes o "
+            "JOIN lineas_orden lo ON o.id = lo.id_orden "
+            "JOIN formas_producto fp ON lo.id_forma_producto = fp.id "
+            "JOIN productos p ON fp.id_producto = p.id "
             "WHERE o.id_usuario = %s AND o.id_estado = %s",
-            (g.user["id"], 1)  # Estado 1 como "abierto"
+            (g.user, 1)  # Estado 1 como "abierto"
         )
         cart_items = cursor.fetchall()
     
-    return render_template('cart.html', cart_items=cart_items)
+    return render_template('carrito.html', cart_items=cart_items)
 
 
 @bp.route('/remove_from_cart', methods=['POST'])
@@ -84,7 +86,7 @@ def remove_from_cart():
         # Obtener la orden abierta del usuario
         cursor.execute(
             "SELECT id FROM Ordenes WHERE id_usuario = %s AND id_estado = %s",
-            (g.user["id"], 1)
+            (g.user, 1)
         )
         order = cursor.fetchone()
 
@@ -106,7 +108,7 @@ def checkout():
         # Obtener la orden abierta del usuario
         cursor.execute(
             "SELECT id FROM Ordenes WHERE id_usuario = %s AND id_estado = %s",
-            (g.user["id"], 1)
+            (g.user, 1)
         )
         order = cursor.fetchone()
 
