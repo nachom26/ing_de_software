@@ -41,7 +41,6 @@ def load_logged_in_user():
         
 
 
-#TODO hacer el registro
 @bp.route("/registro", methods = ("GET", "POST"))
 def register():
     #cuando se envia el formulario de registro

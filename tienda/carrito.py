@@ -16,7 +16,7 @@ def add_to_cart():
     with db.cursor() as cursor:
         # Revisar si el usuario ya tiene una orden "abierta" (estado = 1)
         cursor.execute(
-            "SELECT id FROM Ordenes WHERE id_usuario = %s AND id_estado = %s",
+            "SELECT id FROM ordenes WHERE id_usuario = %s AND id_estado = %s",
             (g.user, 1)  # Asumiendo que el estado 1 es "abierto"
         )
         order = cursor.fetchone()
@@ -24,7 +24,7 @@ def add_to_cart():
         if not order:
             # Crear una nueva orden si no existe una "abierta"
             cursor.execute(
-                "INSERT INTO Ordenes (id_usuario, fecha_hora, id_estado) VALUES (%s, NOW(), %s) RETURNING id",
+                "INSERT INTO ordenes (id_usuario, fecha_hora, id_estado) VALUES (%s, NOW(), %s) RETURNING id",
                 (g.user, 1)  # Estado 1 como "abierto"
             )
             order_id = cursor.fetchone()[0]
@@ -33,7 +33,7 @@ def add_to_cart():
 
         # Verificar si el producto ya está en Lineas_orden de esta orden
         cursor.execute(
-            "SELECT id, cantidad FROM Lineas_orden WHERE id_orden = %s AND id_forma_producto = %s",
+            "SELECT id, cantidad FROM lineas_orden WHERE id_orden = %s AND id_forma_producto = %s",
             (order_id, product_id)
         )
         item = cursor.fetchone()
@@ -42,13 +42,13 @@ def add_to_cart():
             # Si ya está, actualizar la cantidad
             new_quantity = item[1] + quantity
             cursor.execute(
-                "UPDATE Lineas_orden SET cantidad = %s WHERE id = %s",
+                "UPDATE lineas_orden SET cantidad = %s WHERE id = %s",
                 (new_quantity, item[0])
             )
         else:
             # Si no está, insertarlo
             cursor.execute(
-                "INSERT INTO Lineas_orden (id_orden, id_forma_producto, cantidad) VALUES (%s, %s, %s)",
+                "INSERT INTO lineas_orden (id_orden, id_forma_producto, cantidad) VALUES (%s, %s, %s)",
                 (order_id, product_id, quantity)
             )
         db.commit()
@@ -85,14 +85,14 @@ def remove_from_cart():
     with db.cursor() as cursor:
         # Obtener la orden abierta del usuario
         cursor.execute(
-            "SELECT id FROM Ordenes WHERE id_usuario = %s AND id_estado = %s",
+            "SELECT id FROM ordenes WHERE id_usuario = %s AND id_estado = %s",
             (g.user, 1)
         )
         order = cursor.fetchone()
 
         if order:
             cursor.execute(
-                "DELETE FROM Lineas_orden WHERE id_orden = %s AND id_forma_producto = %s",
+                "DELETE FROM lineas_orden WHERE id_orden = %s AND id_forma_producto = %s",
                 (order[0], product_id)
             )
             db.commit()
@@ -107,7 +107,7 @@ def checkout():
     with db.cursor() as cursor:
         # Obtener la orden abierta del usuario
         cursor.execute(
-            "SELECT id FROM Ordenes WHERE id_usuario = %s AND id_estado = %s",
+            "SELECT id FROM ordenes WHERE id_usuario = %s AND id_estado = %s",
             (g.user, 1)
         )
         order = cursor.fetchone()
@@ -115,7 +115,7 @@ def checkout():
         if order:
             # Cambiar el estado de la orden a "completada" (suponiendo que el estado 2 es completada)
             cursor.execute(
-                "UPDATE Ordenes SET id_estado = %s WHERE id = %s",
+                "UPDATE ordenes SET id_estado = %s WHERE id = %s",
                 (2, order[0])
             )
             db.commit()

@@ -8,16 +8,13 @@
 </head>
 <body>
     <header>
-        <a href="/"><button type="button" id="menu-boton-principal">Página Principal</button></a> 
-        <a href="login"><button type="button" id="menu-boton-login">Página Login</button></a>
-        <a href="registro"><button type="button" id="menu-boton-registro">Página Registro</button></a>
-        <a href="propietario.html"><button type="button" id="menu-boton-propietario">Página propietario</button></a>  
+        <a href="../"><button type="button" id="menu-boton-principal">Página Principal</button></a> 
         <h1>Gestión de Productos</h1>
         <p>Sube tus artículos de cuero para la venta</p>
     </header>
     <main>
         <section class="form-container">
-            <form id="productForm">
+            <form id="productForm" action="/propietario/add_product" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="nombre">Nombre del artículo:</label>
                     <input type="text" id="nombre" name="nombre" placeholder="Ej. Bolso de cuero" required>
@@ -30,7 +27,7 @@
 
                 <div class="form-group">
                     <label for="precio">Precio ($):</label>
-                    <input type="number" id="precio" name="precio" min="0" step="0.01" placeholder="Ej. 50.00" required>
+                    <input type="number" id="precio" name="precio" min="0" step="1" placeholder="Ej. 5000" required>
                 </div>
 
                 <div class="form-group">
@@ -38,9 +35,20 @@
                     <input type="file" id="imagen" name="imagen" accept="image/*" required>
                 </div>
 
+                <div class="form-group">
+                    <label for="categoria">Categoria</label>
+                    <input type="text" id="categoria" name="categoria" placeholder="Ej. Bolso" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="inventario">Cantidad en inventario</label>
+                    <input type="number" id="inventario" name="inventario" placeholder="Ej. 40" required>
+                </div>
+
                 <button type="submit" class="submit-btn">Subir producto</button>
             </form>
         </section>
+        {{msg}}
     </main>
 </body>
 </html>
