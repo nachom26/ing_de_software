@@ -34,11 +34,13 @@ def create_app(test_config = None):
     from . import index
     from . import carrito
     from . import propietario
+    from . import configuracion
 
     app.register_blueprint(login.bp)
     app.register_blueprint(index.bp)
     app.register_blueprint(carrito.bp)
     app.register_blueprint(propietario.bp)
+    app.register_blueprint(configuracion.bp)
 
     app.add_url_rule("/", endpoint="index")
 
