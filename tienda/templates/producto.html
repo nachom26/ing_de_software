@@ -9,31 +9,37 @@
 <body>
     <header class="menu">
         <a href="/"><button type="button" id="menu-boton-principal">Página Principal</button></a> 
-        <a href="login"><button type="button" id="menu-boton-login">Página Login</button></a>
-        <a href="registro"><button type="button" id="menu-boton-registro">Página Registro</button></a>    
-        <a href="carrito.html" ><button type="button" id="menu-boton-registro">ICONO CARRITO</button></a> 
+        <a href="/login"><button type="button" id="menu-boton-login">Página Login</button></a>
+        <a href="/registro"><button type="button" id="menu-boton-registro">Página Registro</button></a>    
+        <a href="/carrito" ><button type="button" id="menu-boton-carrito">Carrito</button></a> 
       </header>
 
     <h1><!--informacion del producto clickeado--></h1>
 
 <!-- aqui hay que visualizar producto clicleado en el index donde se exiben todos los productos -->
+
+
 <div class="product-container">
     <!-- Imagen del producto -->
     <div class="product-image">
-        <img src="https://via.placeholder.com/500" alt="Producto">
+        <img src="../static/imgs/{{productos[4]}}" alt="Producto">
     </div>
     
     <!-- Detalles del producto -->
     <div class="product-details">
-        <h1 class="product-title">Nombre del Producto</h1>
-        <p class="product-price">$9,999.99</p>
+        <h1 class="product-title">{{productos[1]}}</h1>
+        <p class="product-price">${{productos[2]}}</p>
+        <p class="product-inventory">Quedan {{productos[3]}} unidades</p>
         <p class="product-description">
-            Aquí va una breve descripción del producto. Este texto detalla las características principales, beneficios y cualquier otra información relevante para los compradores.
+            {{productos[7]}}
         </p>
-        <a href="#" class="add-to-cart-btn">Agregar al carrito</a>
+        <a href="../carrito/add_to_cart/{{productos[0]}}" class="add-to-cart-btn">Agregar al carrito</a>
+        {{msg}}
     </div>
+
 </div>
 
-<script src="ocultador.js"></script>
+
+<script src="../static/ocultador.js"></script>
 </body>
 </html>

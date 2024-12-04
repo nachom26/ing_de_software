@@ -16,6 +16,7 @@
         <a href="login"><button type="button" id="menu-boton-login" class="invFive">Login</button></a>
         <a href="registro"><button type="button" id="menu-boton-registro" class="invFive">Registro</button></a>
         <a href="conf"><button type="button" id="menu-boton-configuracion" class="invFive">Perfil</button></a>
+        <a href="/carrito" ><button type="button" id="menu-boton-carrito" class="invFive">Carrito</button></a>
 
     </div>
        
@@ -25,33 +26,20 @@
   
   <h1>Tienda</h1>
   <div class = "todos_items">
-      <div class = "item">
-          <figure>
-              <img src="/static/imgs/chaqeutaa.jpg" alt="producto">
-          </figure>
-          <div class="infoProd">
-              <h2>Chaquetas de cuero</h2>
-              <p class="precio">$$$</p>
-          </div>
-      </div>
-      <div class = "item">
-          <figure>
-              <img src="/static/imgs/carteraa.jpg" alt="producto">
-          </figure>
-          <div class="infoProd">
-              <h2>Carteras de cuero</h2>
-              <p class="precio">$$$</p>
-          </div>
-      </div>
-      <div class = "item">
-          <figure>
-              <img src="/static/imgs/cintu.jpg" alt="producto">
-          </figure>
-          <div class="infoProd">
-              <h2>Cintures de cuero</h2>
-              <p class="precio">$$$</p>
-          </div>
-      </div>
+
+    {%for item in productos%}
+        <a  href="/producto/{{item[0]}}">
+        <div class = "item">
+            <figure>
+                <img src="/static/imgs/{{item[3]}}" alt="producto">
+            </figure>
+            <div class="infoProd">
+                <h2>{{item[1]}}</h2>
+                <p class="precio">{{item[2]}}</p>
+            </div>
+        </div>
+        </a>
+    {%endfor%}
   </div>
 
   <script src="static\ocultador.js"></script>

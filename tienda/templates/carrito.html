@@ -9,9 +9,8 @@
 <body>
     <header class="menu">
         <a href="/"><button type="button" id="menu-boton-principal">Página Principal</button></a> 
-        <a href="login"><button type="button" id="menu-boton-login">Página Login</button></a>
-        <a href="registro"><button type="button" id="menu-boton-registro">Página Registro</button></a>    
-        <a href="carrito.html" ><button type="button" id= "menu-boton-registro">ICONO CARRITO</button></a> 
+        <a href="/login"><button type="button" id="menu-boton-login">Página Login</button></a>
+        <a href="/registro"><button type="button" id="menu-boton-registro">Página Registro</button></a>    
       </header>
 
     <h1>Productos seleccionados</h1>
@@ -19,30 +18,39 @@
     <div class="cart-container">
         <h1>Carrito de Compras</h1>
         <!-- Producto en el carrito -->
+         {%for item in cart_items%}
         <div class="cart-item">
             <div class="item-info">
-                <img src="https://via.placeholder.com/100" alt="Producto">
+                <img src="../static/imgs/{{item[3]}}" alt="Producto">
                 <div class="item-details">
-                    <p class="item-title">Nombre del Producto</p>
-                    <p class="item-price">$9,999.99</p>
+                    <p class="item-title">{{item[1]}}</p>
+                    <p class="item-price">${{item[2]}}</p>
                 </div>
             </div>
-            <div class="quantity-controls">
+
+            <!--<div class="quantity-controls">
                 <button class="quantity-btn">-</button>
                 <input type="text" class="quantity-input" value="1">
                 <button class="quantity-btn">+</button>
-            </div>
+            </div> -->
         </div>
+        {%endfor%}
         <!-- Repite el div .cart-item para más productos -->
 
         <!-- Total y botón de comprar -->
-        <p class="total-price">Total: $9,999.99</p>
-        <a href="#" class="checkout-btn">Comprar ahora</a>
+        <a href="/carrito/checkout" class="checkout-btn">Comprar ahora</a>
+        {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                      {{ message }}
+                    {% endfor %}
+                {% endif %}
+              {% endwith %}
     </div>
 
 <!-- hay que hacer la pagina cuando se hace click en el producto en el cual se clickeara la opcion de ponerlo en el carrito -->
 
     
-<script src="ocultador.js"></script>
+<script src="../static/ocultador.js"></script>
 </body>
 </html>
