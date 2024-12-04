@@ -1,4 +1,4 @@
-#contenedor{
+/*#contenedor{
     display: flex;
     justify-content: center;
     align-content: center;    
@@ -22,4 +22,128 @@
 #contenedor-formulario-registro-password{
     width: 300px;
  
- }
+ }*/
+
+/* Reseteo general y fondo */
+*::after,
+*::before,
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    max-width: 100%;
+    font-family: 'Lato', sans-serif;
+    color: #333;
+    background-image: url('/tienda/static/imgs/fondo2.webp');
+    background-size: auto; 
+    background-position: center;
+    background-attachment: fixed;
+    padding-top: 140px; /* Espacio para el header fijo */
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(192, 191, 191, 0.4); /* Gris oscuro translúcido */
+    color: white;
+    z-index: 1000;
+    border-radius: 10px;
+    box-shadow: none;
+}
+
+/* Título h1 */
+h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 900;
+    font-size: 1.5rem;
+    color: #252525;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+}
+
+/* Botones del header */
+#menu-boton-principal,
+#menu-boton-login {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 900;
+    font-style: italic;
+    border-radius: 10px;
+    color: #40382D;
+    background-color: #E7E5DD;
+    padding: 15px 20px;
+    box-shadow: inset 0 -5px 0 #40382D;
+    transition: box-shadow 0.3s ease, color 0.3s ease;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+}
+
+#menu-boton-principal:hover,
+#menu-boton-login:hover {
+    box-shadow: inset 0 -55px 0 #40382D, 2px 2px 3px rgba(0, 0, 0, 0.3);
+    color: #DECDA5;
+}
+
+/* Contenedor del formulario */
+#contenedor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 80px; /* Espacio extra debajo del header */
+}
+
+/* Estilo del formulario */
+#contenedor-formulario-registro {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: solid #000 1px;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 5%;
+    width: 600px;
+    padding: 40px;
+}
+
+/* Estilo para las etiquetas 'Correo' y 'Contraseña' */
+#contenedor-formulario-registro label {
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: normal !important;
+    font-size: 1.2rem !important;
+    color: #40382D !important;
+    margin-bottom: 10px !important;
+    display: block;
+}
+
+/* Estilo para los campos de entrada (Correo y Contraseña) y el botón de envío */
+#contenedor-formulario-registro input[type="text"],
+#contenedor-formulario-registro input[type="password"],
+#contenedor-formulario-registro input[type="submit"] {
+    width: 90%;             /* Aumenta el ancho del campo de entrada y del botón */
+    padding: 12px 15px;     /* Aumenta el espacio dentro del campo de entrada y del botón */
+    margin: 10px auto;      /* Añade más espacio entre los campos */
+    border: 1px solid #ccc; /* Borde del campo y del botón */
+    border-radius: 5px;     /* Bordes redondeados */
+    font-size: 1.1rem;      /* Aumenta el tamaño de la fuente dentro del campo y del botón */
+}
+
+/* Estilo del botón cuando se pasa el mouse por encima */
+#contenedor-formulario-registro input[type="submit"]:hover {
+    background-color: #DECDA5;
+    color: #40382D;
+}
+
+

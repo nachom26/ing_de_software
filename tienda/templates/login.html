@@ -7,8 +7,8 @@
 </head>
 <body>
   <header class="menu">
-    <a href="/"><button type="button" id="menu-boton-principal">Pagina Principal</button></a> 
-    <a href="registro"><button type="button" id="menu-boton-login">Pagina Registro</button></a>     
+    <a href="index.html"><button type="button" id="menu-boton-principal">Pagina Principal</button></a> 
+    <a href="registro.html"><button type="button" id="menu-boton-login">Pagina Registro</button></a>     
   </header>
 
       <div id="contenedor" >
@@ -24,15 +24,9 @@
         </form>
       </div> 
 
-      {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            {% for message in messages %}
-              {{ message }}
-            {% endfor %}
-        {% endif %}
-      {% endwith %}
+      
  
     
-    
+      <script src="ocultador.js"></script>
 </body>
 </html>
