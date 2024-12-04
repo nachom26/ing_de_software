@@ -95,6 +95,40 @@ header {
     color: #40382D;
 }
 
+#menu-boton-registro.invFive {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 900;
+    font-style: italic;
+    border-radius: 10px;
+    color: #E7E5DD;
+    background-color: #40382D;
+    padding: 15px 20px;
+    box-shadow: inset 0 -5px 0 #E7E5DD;
+    transition: box-shadow 0.3s ease, color 0.3s ease;
+}
+
+#menu-boton-registro.invFive:hover {
+    box-shadow: inset 0 -55px 0 #E7E5DD, 2px 2px 3px rgba(0,0,0,0.3);
+    color: #40382D;
+}
+
+#menu-boton-configuracion.invFive {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 900;
+    font-style: italic;
+    border-radius: 10px;
+    color: #E7E5DD;
+    background-color: #40382D;
+    padding: 15px 20px;
+    box-shadow: inset 0 -5px 0 #E7E5DD;
+    transition: box-shadow 0.3s ease, color 0.3s ease;
+}
+
+#menu-boton-configuracion.invFive:hover {
+    box-shadow: inset 0 -55px 0 #E7E5DD, 2px 2px 3px rgba(0,0,0,0.3);
+    color: #40382D;
+}
+
 .todos_items img {
     max-width: 100%;
     height: auto;

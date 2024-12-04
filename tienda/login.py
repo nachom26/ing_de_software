@@ -4,7 +4,7 @@ from flask import g
 from flask import request
 from flask import render_template
 from flask import redirect
-from flask import url_for
+from flask import url_for, jsonify
 from .db import get_db
 from werkzeug.security import check_password_hash
 from werkzeug.security import generate_password_hash
@@ -14,6 +14,13 @@ from flask import current_app
 import functools
 
 bp = Blueprint("login", __name__)
+
+@bp.route('/login_status')
+def login_status():
+    if 'user_id' in session:
+        return jsonify(logged_in=True, user_id=session['user_id'])
+    else:
+        return jsonify(logged_in=False)
 
 def login_required(view):
     """View decorator that redirects anonymous users to the login page."""
